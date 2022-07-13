@@ -1,10 +1,15 @@
 let taskNameInput = document.querySelector("#task-name-input");
 let addTaskButton = document.querySelector("#add-task-btn");
 let startMessage = document.querySelector("#start-message");
+let showAllButton = document.querySelector("#show-all-btn");
+let showNotCompletedButton = document.querySelector("#show-not-completed-btn");
 let taskList = document.querySelector(".task-list");
+
 let tasks = [];
 
 addTaskButton.addEventListener("click", addTaskHandler);
+showAllButton.addEventListener("click", showAllHandler);
+showNotCompletedButton.addEventListener("click", showNotCompletedHandler);
 
 taskNameInput.addEventListener("keydown", function (e) {
     if (e.code == "Enter") addTaskHandler();
@@ -22,6 +27,22 @@ function addTaskHandler() {
     } else {
         alert("введите имя задачи");
     }
+}
+
+function showAllHandler() {
+    taskList.innerHTML = "";
+    tasks.forEach(task => {
+        task.createIn(taskList);
+    });
+}
+
+function showNotCompletedHandler() {
+    taskList.innerHTML = "";
+    tasks
+        .filter(task => task.isDone == false)
+        .forEach(task => {
+            task.createIn(taskList);
+        });
 }
 
 class Task {
@@ -44,6 +65,11 @@ class Task {
 
         this.div.append(input);
         this.div.append(p);
+
+        if (this.isDone) {
+            this.div.classList.add("completed");
+            input.checked = true;
+        }
         element.append(this.div);
     }
 

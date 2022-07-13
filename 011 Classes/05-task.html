@@ -49,32 +49,58 @@
             Пройдите циклом по массиву и на каждом экземпляре класса MonthReport вызовите метод render.
         */
 
-        let source = [
-            {
-                month: "Январь",
-                amount: 20,
-                users: ["Claudia Contreras", "Blair Hayden", "Montgomery Cohen"]
-            },
-            {
-                month: "Февраль",
-                amount: 140
-            },
-            {
-                month: "Март",
-                amount: 115,
-                users: ["Blair Hayden", "Montgomery Cohen"]
-            }
-        ];
+        // let source = [
+        //     {
+        //         month: "Январь",
+        //         amount: 20,
+        //         users: ["Claudia Contreras", "Blair Hayden", "Montgomery Cohen"]
+        //     },
+        //     {
+        //         month: "Февраль",
+        //         amount: 140
+        //     },
+        //     {
+        //         month: "Март",
+        //         amount: 115,
+        //         users: ["Blair Hayden", "Montgomery Cohen"]
+        //     }
+        // ];
+        //
+        // let template = document.querySelector("#monthReport").innerHTML;
+        // let output = document.querySelector("#output");
+        //
+        // document.querySelector("button").addEventListener("click", function () {
+        //     for (let i = 0; i < source.length; i++) {
+        //         const monthData = source[i];
+        //         let html = Mustache.render(template, monthData);
+        //         output.insertAdjacentHTML("beforeend", html);
+        //     }
+        // });
 
         let template = document.querySelector("#monthReport").innerHTML;
         let output = document.querySelector("#output");
 
-        document.querySelector("button").addEventListener("click", function () {
-            for (let i = 0; i < source.length; i++) {
-                const monthData = source[i];
-                let html = Mustache.render(template, monthData);
-                output.insertAdjacentHTML("beforeend", html);
+        class MonthReport {
+            constructor(month, amount, users) {
+                this.month = month;
+                this.amount = amount;
+                this.users = users;
             }
+
+            render(element) {
+                let html = Mustache.render(template, this);
+                element.insertAdjacentHTML("beforeend", html);
+            }
+        }
+
+        let source = [
+            new MonthReport("Январь", 20, ["Claudia Contreras", "Blair Hayden", "Montgomery Cohen"]),
+            new MonthReport("Февраль", 140),
+            new MonthReport("Март", 115, ["Blair Hayden", "Montgomery Cohen"])
+        ];
+
+        document.querySelector("button").addEventListener("click", function () {
+            source.forEach(report => report.render(output));
         });
     </script>
 </body>
